@@ -12,6 +12,10 @@ public class Location {
         this.address = address;
     }
 
+    public String getAddress() {
+        return this.address;
+    }
+
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
@@ -28,5 +32,8 @@ public class Location {
         return longitude;
     }
 
-    
+    @Override
+    public String toString() {
+        return String.format("%s: (%f, %f)", this.address, this.latitude, this.longitude);
+    }
 }
