@@ -4,31 +4,35 @@ public class Location {
 
     private String address;
 
-    private float latitude;
+    private double latitude;
 
-    private float longitude;
+    private double longitude;
 
-    public Location(String address) {
+    private Location(String address){
         this.address = address;
+    }
+
+    public static Location getInstance(String address) {
+        return new Location(address);
     }
 
     public String getAddress() {
         return this.address;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return this.latitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
