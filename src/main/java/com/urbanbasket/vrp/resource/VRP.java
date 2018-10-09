@@ -24,11 +24,6 @@ import java.util.List;
 @RequestMapping("v1/VRP")
 public class VRP {
 
-    private class VrpParameters {
-        private String customerLocations[];
-        private String depotLocation;
-    }
-
     private static final Logger logger = LogManager.getLogger(VRP.class);
 
     @GetMapping("healthz")
@@ -86,9 +81,9 @@ public class VRP {
         List<Location> roadLocations = new ArrayList<>();
         int id = 0;
 
-        for (String customerLocation : parameters.customerLocations) {
+        for (String customerLocation : parameters.getCustomerLocations()) {
             GeoApiContext context = new GeoApiContext.Builder()
-                    .apiKey(System.getenv("GOOGLE_MAP_API_KEY"))
+                    .apiKey(System.getenv("GOOGLE_MAPS_API_KEY"))
                     .build();
             try {
                 GeocodingResult[] results = GeocodingApi.geocode(context,
