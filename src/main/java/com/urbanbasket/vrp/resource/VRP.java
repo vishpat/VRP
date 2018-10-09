@@ -8,6 +8,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaplanner.examples.vehiclerouting.domain.Customer;
+import org.optaplanner.examples.vehiclerouting.domain.Depot;
+import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
+
 import com.urbanbasket.vrp.Location;
 
 import java.util.ArrayList;
@@ -26,6 +32,14 @@ public class VRP {
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
+
+    private static ArrayList<Location> solve(ArrayList<Location> unsortedLocations) {
+        ArrayList<Location>sortedLocations = new ArrayList();
+        VehicleRoutingSolution vrpSolution = new VehicleRoutingSolution();
+
+        return sortedLocations;
+    }
+
     @PutMapping("addresses")
     public @ResponseBody
     ResponseEntity<String[]> sortAddresses(@RequestBody String customerLocations[]) {
@@ -39,6 +53,7 @@ public class VRP {
             try {
                 GeocodingResult[] results = GeocodingApi.geocode(context,
                         customerLocation).await();
+
                 Location location = Location.getInstance(customerLocation);
                 location.setLatitude(results[0].geometry.location.lat);
                 location.setLongitude(results[0].geometry.location.lng);
