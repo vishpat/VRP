@@ -5,6 +5,8 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.optaplanner.core.api.solver.Solver;
+import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
@@ -15,6 +17,7 @@ import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.util.locale.provider.LocaleServiceProviderPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +155,12 @@ class VRPSolution {
         this.setupDepots();
         this.setupCustomers();
         this.setupVehicles();
+
+        SolverFactory<VehicleRoutingSolution> solverFactory = SolverFactory.createFromXmlResource(
+                "org/optaplanner/examples/vehiclerouting/solver/vehicleRoutingSolverConfig.xml");
+        Solver<VehicleRoutingSolution> solver = solverFactory.buildSolver();
+        VehicleRoutingSolution bestSolution = solver.solve(this.vrpSolution);
+        logger.info(bestSolution);
     }
 }
 
