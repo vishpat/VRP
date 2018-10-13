@@ -17,9 +17,9 @@ import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.util.locale.provider.LocaleServiceProviderPool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 class VRPSolution {
@@ -71,6 +71,7 @@ class VRPSolution {
 
         roadLocations.stream().forEach(roadLocationObj -> {
             RoadLocation roadLocation = (RoadLocation) roadLocationObj;
+            roadLocation.setTravelDistanceMap(new HashMap<>());
 
             roadLocations.stream().forEach(neighboringRoadLocationObj -> {
                 RoadLocation neighboringRoadLocation = (RoadLocation) neighboringRoadLocationObj;
@@ -101,6 +102,7 @@ class VRPSolution {
         for (int i = 0; i < parameters.getCarCount(); i++) {
             Vehicle vehicle = new Vehicle();
             vehicle.setCapacity(VEHICLE_CAPACITY);
+            vehicle.setDepot(this.depots.get(0));
             vehicles.add(vehicle);
         }
         this.vrpSolution.setVehicleList(vehicles);
@@ -122,6 +124,7 @@ class VRPSolution {
             depot.setLocation(roadLocation);
             depot.setId(this.depotID);
             this.depots.add(depot);
+            logger.debug("Setting depot %s", depot.toString());
             vrpSolution.setDepotList(this.depots);
         } catch (Exception exp) {
             logger.error("Hit exception " + exp.toString());

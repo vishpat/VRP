@@ -6,8 +6,9 @@ locations="[\"300 constitution av apt 133, Bayonne, NJ 7002\",
          \"3 pamrapo ct Apt 3A,    Bayonne,    NJ,    7002\"]"
 
 depot="\"180 Talmadge rd, Edison, Nj\""
+carCount=1
 
-payload="{\"customerLocations\": $locations, \"depot\":$depot}"
+payload="{\"customerLocations\": $locations, \"depot\":$depot, \"carCount\":$carCount}"
 echo $payload
 set -x
 curl -H 'Content-Type: application/json' -H 'Accept: application/json'   -X PUT -d "$payload" http://localhost:8080/v1/VRP/addresses
