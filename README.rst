@@ -1,6 +1,10 @@
 VRP
 ===
-Java springboot REST service for Vehicle Routing Problem 
+Java springboot REST service for Vehicle Routing Problem. The service finds an optimal solution of the Vehicle routing problem using Optaplanner_ and Google Maps API_
+
+..  _OptaPlanner : https://www.optaplanner.org/
+..  _API : https://developers.google.com/maps/documentation/geolocation/intro
+
 
 Build
 -----
@@ -14,27 +18,27 @@ Run
 ---
 ::
     
-    export GOOGLE_MAPS_API_KEY=<Google Map API key>
+    export GOOGLE_MAPS_API_KEY=<Google Geolocation API key>
     java -jar target/vrp-0.0.1-SNAPSHOT.jar
 
 
 Usage
 -----
 
-Sample Input
+Sample Json Input
 
 ::
 
     {  
    "customerLocations":[  
-      "300 constitution av apt 133, Bayonne, NJ 7002",
-      "17 new street, FL-1,    Bayonne,    NJ,    7002",
-      "3 Pamrapo CT Apt 3A,    Bayonne,    NJ,    7002",
-      "300 constitution ave apt 418,    Bayonne,    NJ,    7002",
-      "183 West 49th street Apt 3A,    Bayonne,    NJ,    7002",
-      "3 pamrapo ct Apt 3A,    Bayonne,    NJ,    7002"
+      "Customer Address 1",
+      "Customer Address 2",
+      "Customer Address 3",
+      "Customer Address 4",
+      "Customer Address 5",
    ],
-   "depot":"180 Talmadge rd, Edison, Nj",
-   "carCount":1
+   "depot":"Depot Address",
   }
 
+
+The output is Json array of sorted addresses.
