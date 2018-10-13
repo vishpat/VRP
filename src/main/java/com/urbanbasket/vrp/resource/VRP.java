@@ -31,7 +31,8 @@ class VRPSolution {
 
     private static final Logger logger = LogManager.getLogger(VRPSolution.class);
     private static final Integer CUSTOMER_DEMAND = 1;
-    private static final Integer VEHICLE_CAPACITY = 1000;
+    private static final Integer VEHICLE_COUNT = 1;
+    private static final Integer VEHICLE_CAPACITY = 10000;
     private static final Integer STEP_LIMIT = 5000;
     private static final String MOVE_THREAD_COUNT = "4";
     private final VrpParameters parameters;
@@ -108,7 +109,7 @@ class VRPSolution {
     }
 
     private void setupVehicles() {
-        for (int i = 0; i < parameters.getCarCount(); i++) {
+        for (int i = 0; i < VEHICLE_COUNT; i++) {
             Vehicle vehicle = new Vehicle();
             vehicle.setId(this.vehicleID);
             vehicle.setCapacity(VEHICLE_CAPACITY);
