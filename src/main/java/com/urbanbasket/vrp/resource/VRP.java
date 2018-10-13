@@ -3,6 +3,7 @@ package com.urbanbasket.vrp.resource;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.optaplanner.core.api.solver.Solver;
@@ -31,7 +32,7 @@ class VRPSolution {
     private static final Logger logger = LogManager.getLogger(VRPSolution.class);
     private static final Integer CUSTOMER_DEMAND = 1;
     private static final Integer VEHICLE_CAPACITY = 1000;
-    private static final Integer STEP_LIMIT = 100;
+    private static final Integer STEP_LIMIT = 5000;
     private static final String MOVE_THREAD_COUNT = "4";
     private final VrpParameters parameters;
     private final VehicleRoutingSolution vrpSolution;
@@ -50,6 +51,7 @@ class VRPSolution {
     VRPSolution(VrpParameters parameters) {
         this.parameters = parameters;
         this.vrpSolution = new VehicleRoutingSolution();
+        logger.isEnabled(Level.DEBUG);
     }
 
     private Long getNextRoadID() {
@@ -182,7 +184,17 @@ class VRPSolution {
 
         Solver<VehicleRoutingSolution> solver = solverFactory.buildSolver();
         VehicleRoutingSolution bestSolution = solver.solve(this.vrpSolution);
-        return bestSolution.getCustomerList();
+
+        final List<Customer> customerRoutes = new ArrayList<>();
+        bestSolution.getVehicleList().stream().forEach(vehicle -> {
+            Customer customer = vehicle.getNextCustomer();
+            while (customer != null) {
+                customerRoutes.add(customer);
+                customer = customer.getNextCustomer();
+            }
+        });
+
+        return customerRoutes;
     }
 }
 
