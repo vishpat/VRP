@@ -7,6 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.config.localsearch.LocalSearchPhaseConfig;
+import org.optaplanner.core.config.solver.SolverConfig;
+import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
@@ -21,12 +24,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class VRPSolution {
 
     private static final Logger logger = LogManager.getLogger(VRPSolution.class);
     private static final Integer CUSTOMER_DEMAND = 1;
     private static final Integer VEHICLE_CAPACITY = 1000;
+    private static final Integer STEP_LIMIT = 100;
+    private static final String MOVE_THREAD_COUNT = "4";
     private final VrpParameters parameters;
     private final VehicleRoutingSolution vrpSolution;
     private final List<Location> roadLocations = new ArrayList<>();
@@ -126,7 +132,6 @@ class VRPSolution {
             depot.setLocation(roadLocation);
             depot.setId(this.depotID);
             this.depots.add(depot);
-            logger.debug("Setting depot %s", depot.toString());
             vrpSolution.setDepotList(this.depots);
         } catch (Exception exp) {
             logger.error("Hit exception " + exp.toString());
@@ -159,7 +164,7 @@ class VRPSolution {
         vrpSolution.setDistanceType(DistanceType.ROAD_DISTANCE);
     }
 
-    public void solve() {
+    public List<Customer> solve() {
         this.setupDepots();
         this.setupRoadLocations();
         this.setupCustomers();
@@ -167,9 +172,17 @@ class VRPSolution {
 
         SolverFactory<VehicleRoutingSolution> solverFactory = SolverFactory.createFromXmlResource(
                 "org/optaplanner/examples/vehiclerouting/solver/vehicleRoutingSolverConfig.xml");
+        SolverConfig solverConfig = solverFactory.getSolverConfig();
+        solverConfig.getPhaseConfigList().forEach(phaseConfig -> {
+            if (LocalSearchPhaseConfig.class.isAssignableFrom(phaseConfig.getClass())) {
+                phaseConfig.setTerminationConfig(new TerminationConfig().withStepCountLimit(STEP_LIMIT));
+            }
+        });
+        solverConfig.setMoveThreadCount(MOVE_THREAD_COUNT);
+
         Solver<VehicleRoutingSolution> solver = solverFactory.buildSolver();
         VehicleRoutingSolution bestSolution = solver.solve(this.vrpSolution);
-        logger.info(bestSolution);
+        return bestSolution.getCustomerList();
     }
 }
 
@@ -194,8 +207,9 @@ public class VRP {
     public @ResponseBody
     ResponseEntity<String[]> sortAddresses(@RequestBody VrpParameters parameters) {
         VRPSolution vrpSolution = new VRPSolution(parameters);
-        vrpSolution.solve();
-        return new ResponseEntity<>(parameters.getCustomerLocations(), HttpStatus.CREATED);
+        List<Customer> customers = vrpSolution.solve();
+        List<String> locations = customers.stream().map(customer -> customer.getLocation().getName()).collect(Collectors.toList());
+        return new ResponseEntity<>(locations.toArray(new String[0]), HttpStatus.CREATED);
     }
 
 }
