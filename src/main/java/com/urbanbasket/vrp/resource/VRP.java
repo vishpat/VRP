@@ -35,6 +35,7 @@ class VRPSolution {
     private final List<Depot> depots = new ArrayList<>();
     private Long locationId = new Long(0);
     private Long depotID = null;
+    private Long vehicleID = new Long(1);
     private GeoApiContext context = new GeoApiContext.Builder()
             .apiKey(System.getenv("GOOGLE_MAPS_API_KEY"))
             .build();
@@ -101,6 +102,7 @@ class VRPSolution {
     private void setupVehicles() {
         for (int i = 0; i < parameters.getCarCount(); i++) {
             Vehicle vehicle = new Vehicle();
+            vehicle.setId(this.vehicleID);
             vehicle.setCapacity(VEHICLE_CAPACITY);
             vehicle.setDepot(this.depots.get(0));
             vehicles.add(vehicle);
@@ -148,14 +150,18 @@ class VRPSolution {
             }
         }
 
+        this.depots.forEach(depot -> {
+            this.roadLocations.add(depot.getLocation());
+        });
+
         this.calculateDistanceMatrix(this.roadLocations);
         vrpSolution.setLocationList(this.roadLocations);
         vrpSolution.setDistanceType(DistanceType.ROAD_DISTANCE);
     }
 
     public void solve() {
-        this.setupRoadLocations();
         this.setupDepots();
+        this.setupRoadLocations();
         this.setupCustomers();
         this.setupVehicles();
 
