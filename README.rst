@@ -49,4 +49,6 @@ Sample Json Input
   }
 
 
-The output is Json array of sorted addresses. sample_client.py provides and example of how to use the REST api.
+The output is Json array of sorted addresses. sample_client.py_ provides and example of how to use the REST api.
+
+.. _sample_client.py : https://github.com/vishpat/VRP/blob/master/sample_client.py
