@@ -27,7 +27,7 @@ Run
 ::
     
     export GOOGLE_MAPS_API_KEY=<Google Geolocation API key>
-    java -jar target/vrp-0.0.1-SNAPSHOT.jar
+    java -jar target/vrp-0.0.2-SNAPSHOT.jar
 
 
 Usage
