@@ -11,8 +11,10 @@ A simple Java REST service for solving Vehicle Routing Problem. The service find
 Requirements
 ------------
 
-JDK 10
+- JDK 10
+- Maven_
 
+.. _Maven : https://maven.apache.org/
 
 Build
 -----
