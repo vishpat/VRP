@@ -6,6 +6,12 @@ Java springboot REST service for Vehicle Routing Problem. The service finds an o
 ..  _API : https://developers.google.com/maps/documentation/geolocation/intro
 
 
+Requirements
+------------
+
+JDK 10
+
+
 Build
 -----
 ::
