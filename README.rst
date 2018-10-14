@@ -1,6 +1,8 @@
-VRP
-===
-Java springboot REST service for Vehicle Routing Problem. The service finds an optimal solution of the Vehicle routing problem using Optaplanner_ and Google Maps API_
+Description
+===========
+
+A simple Java REST service for solving Vehicle Routing Problem. The service finds an optimal path to be taken by vehicle delivering goods to different customer locations starting for the depot. The REST serivce is built using SpringBoot and utilizes Optaplanner_ and Google Geolocation API_. The Google GeoLocation API is used to determine the latitude and longitude of the customer location while Optaplanner is use to determine the optiomal delivery path.
+
 
 ..  _OptaPlanner : https://www.optaplanner.org/
 ..  _API : https://developers.google.com/maps/documentation/geolocation/intro
