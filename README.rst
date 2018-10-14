@@ -47,4 +47,4 @@ Sample Json Input
   }
 
 
-The output is Json array of sorted addresses.
+The output is Json array of sorted addresses. sample_client.py provides and example of how to use the REST api.
