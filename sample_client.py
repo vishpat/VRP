@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-u 
+
 
 import requests
 import json
