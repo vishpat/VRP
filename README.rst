@@ -1,7 +1,7 @@
 Description
 ===========
 
-A simple Java REST service for solving Vehicle Routing Problem. The service finds an optimal path to be taken by vehicle delivering goods to different customer locations starting for the depot. The REST serivce is built using SpringBoot and utilizes Optaplanner_ and Google Geolocation API_. The Google GeoLocation API is used to determine the latitude and longitude of the customer location while Optaplanner is use to determine the optiomal delivery path.
+A simple Java REST service for solving Vehicle Routing Problem. The service finds an optimal path for a vehicle starting from a depot and delivering goods to different customer locations. The REST serivce is built using SpringBoot and utilizes Optaplanner_ and Google Geolocation API_. The Google GeoLocation API is used to determine the latitude and longitude of the customer location while Optaplanner is use to determine the optiomal delivery path.
 
 
 ..  _OptaPlanner : https://www.optaplanner.org/
